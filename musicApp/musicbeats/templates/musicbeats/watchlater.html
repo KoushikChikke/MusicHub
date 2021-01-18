@@ -1,9 +1,29 @@
 {% extends 'musicbeats/basic.html' %}
 {% block title %} All Songs {% endblock %}
-
-
 {% block body %}
-
-
+{% load static %}
+<h1 style="color: red; text-align:center;">Watch Later</h1>
+{% if song|length < 1 %}
+<h1 style="text-align: center;"> You don't have any song in your watchlist </h1>
+{% endif %}
+<div class="container">
+{% for i in song %}
+<div class="card mb-3" style="max-width: 940px; padding-top: 3%;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{i.image.url}}" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title" style="color: green; font-weight: normal;">{{i.name}}</h5>
+        <p class="card-text">{{i.tags}}</p>
+        <a href="/musicbeats/songs/{{i.song_id}}"><button class="btn btn-outline-danger">Listen Song</button></a>
+         <a href="/musicbeats/wl_delete/{{i.song_id}}"><button class="btn btn-outline-danger">Delete Song</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
 
 {% endblock %}

@@ -3,6 +3,18 @@
 
 
 {% block body %}
+<script>
+{% if message %}
+Swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: '{{message}}',
+  showConfirmButton: false,
+  timer: 1500
+})
+{% endif %}
+</script>
+
 
 <div class="container">
     <div class="row">
@@ -10,7 +22,7 @@
             <img src="/media/{{song.image}}" alt="" height="250" width="350">
         </div>
         <div class="col-md-6">
-            <h2 style ="padding-top: 6%; font-weight:550; ">Title:{{song.name}}</h2>
+            <h2 style ="padding-top: 6%; font-weight:550; ">Name:{{song.name}}</h2>
             <h5 style ="padding-top: 6%; font-weight:550;">Category: {{song.tags}}</h2>
             <h5 style ="padding-top: 6%; font-weight:550;">Movie: {{song.movie}}</h2>
             <h5 style ="padding-top: 6%; font-weight:550;">Singer: {{song.singer}}</h2>

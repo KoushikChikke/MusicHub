@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <title>{% block title %} {% endblock %}</title>
   </head>
   <body>
@@ -26,27 +26,51 @@
             <li class="nav-item">
               <a class="nav-link" href="/musicbeats/songs">All Songs</a>
             </li>
+            {% if not  user.is_authenticated %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="/musicbeats/login">Login</a></li>
+                <li><a class="dropdown-item" href="/musicbeats/signup">Signup</a></li>
               </ul>
             </li>
-          
+            {% endif %}
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <form class="d-flex" method="GET" action="/musicbeats/search">
+            <input name="query" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
         {% if user.is_authenticated %}
-          <div class="form-inline my-2 my-lg-0 mx-2" >
-          <h5 style="color: white; font-family: cursive;"> Hi {{request.user}}</h5>
-          </div>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <div class="form-inline my-2 my-lg-0 mx-2" >
+          <h7  style="color: white; font-family: cursive;"> {{request.user}}</h7>
+              </div>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/musicbeats/watchlater">WatchList</a></li>
+                 <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
+              </ul>
+            </li>
+            <script>
+            function logout(){
+              Swal.fire({
+                        title: 'Are you sure you want to logout?',
+                    
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes im sure'
+                      }).then((result) => {
+                        if (result.value) {
+                          document.location="/musicbeats/logout_user"
+                        }
+                      })
+            }
+            </script>
            {% endif %}
         </div>
         
@@ -67,6 +91,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
     -->
     {% block JavaScript%}
+    
     {% endblock %}
   </body>
 </html>
