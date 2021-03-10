@@ -1,0 +1,79 @@
+{% extends 'musicbeats/basic.html' %}
+{% block title %} Upload {% endblock %}
+
+
+{% block body %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: white;  height:40em">
+<h2 style="text-align: center; padding-top:2%; color:black;">Upload Your Music </h2>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"  style="color:red;" {% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="container my-4">
+    <form method="POST" enctype="multipart/form-data" action="/musicbeats/upload">
+    {% csrf_token %}
+<div class="form-group">
+    <label for="exampleInputEmail1">Your Music name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" name="name" >
+</div>
+
+<div class="form-group">
+  <label for="exampleInputEmail1">Description</label>
+  <textarea class="form-control" aria-label="With textarea" name="description" placeholder="Enter description"></textarea>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputEmail1">singer name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Singer Name" name="singer_name" >
+</div>
+<div class="form-group">
+  <label for="sel1">Select Genre:</label>
+  <select class="form-control" id="sel1" name="genre" >
+    <option value="rock">Rock</option>
+    <option value="jazz">Jazz</option>
+    <option value="pop">Pop</option>
+    <option value="country">Counry Music</option>
+    <option value="classical">Classical</option>
+    <option value="heavyMetal">Heavy Metal</option>
+    <option value="rap">Rap</option>
+  </select>
+</div>
+
+<div class="form-group">
+    <label for="exampleFormControlFile1">Enter Your Music Banner Image <b>(Only 256*256 resolution supported!)</b></label>
+    <input type="file" class="form-control-file" id="exampleFormControlFile1" name="MusicImage" >
+</div>
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Movie Name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Movie Name" name="movie_name" >
+</div>
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Add Credit (Web Link) </label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Credit Link" name="credit" >
+</div>
+
+
+<div class="form-group">
+    <label for="exampleFormControlFile1">Enter Your Music File <b>(Only mp3 supported!)</b></label>
+    <input type="file" class="form-control-file" id="exampleFormControlFile1" name="Musicfile" >
+</div>
+
+<div style="padding-top:3%; padding-bottom:3%">
+ <button type="submit" class="btn btn-primary">Upload...</button>
+</div>
+
+ 
+
+</form>
+</div>
+</main>
+
+
+{% endblock %}

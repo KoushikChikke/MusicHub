@@ -1,26 +1,61 @@
 {% extends 'musicbeats/basic.html' %}
-{% block title %} All Songs {% endblock %}
+{% block title %}Songs {% endblock %}
 
 
 {% block body %}
-<div class="container">
+ <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: white; height:100em">
+<div class="container" style="padding-bottom: 6%;" >
 {% for i in song %}
-<div class="card mb-3" style="max-width: 940px; padding-top: 3%;">
+<div class="card mb-3" style="max-width: 940px; padding-top: 3%;background-color: white; border-color: white;" >
   <div class="row no-gutters">
     <div class="col-md-4">
       <img src="{{i.image.url}}" class="card-img" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title" style="color: green; font-weight: normal;">{{i.name}}</h5>
-        <p class="card-text">{{i.tags}}</p>
-        <a href="/musicbeats/songs/{{i.song_id}}"><button class="btn btn-outline-danger">Listen Song</button></a>
+        <h5 class="card-title" style="color: black; font-weight: normal;">{{i.name}}</h5>
+        <p class="card-text" style="color: black;">{{i.tags}}</p>
+        <p class="card-text" style="color: black;">{{i.description}}</p>
+        {% if user.is_authenticated %}
+        <form action="/musicbeats/history" method="POST">{% csrf_token %}
+        <input type="hidden" name="music_id" value="{{i.song_id}}">
+        <a style="color: black;" href="/musicbeats/songs/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+        
+        </form>
+        {% else %}
+        <a  style="color: black;" href="/musicbeats/songs/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+        {% endif %}
+        
       </div>
     </div>
   </div>
 </div>
+<hr>
 {% endfor %}
+
+
+<div class="pagination" >
+    <span class="step-links" style="color:black;">
+        {% if song.has_previous %}
+            <a href="?page=1"  style="color: black;">&laquo; first</a>
+            <a href="?page={{ song.previous_page_number }}"  style="color: black;">previous</a>
+        {% endif %}
+
+        <span class="current"  style="color: black;">
+            Page {{ song.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if song.has_next %}
+            <a href="?page={{ song.next_page_number }}"  style="color: black;">next</a>
+            <a href="?page={{ song.paginator.num_pages }}"  style="color: black;">last &raquo;</a>
+        {% endif %}
+    </span>
 </div>
+</div>
+
+</main>
+
+
 
 
 {% endblock %}

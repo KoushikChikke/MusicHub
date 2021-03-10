@@ -1,29 +1,38 @@
 {% extends 'musicbeats/basic.html' %}
-{% block title %} All Songs {% endblock %}
+{% block title %} Search Results {% endblock %}
 
 
 {% block body %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: white;  height:80em">
 <div class="container">
-<div style="padding-top: 3%; padding-bottom: 2%; font-size:200%; color:grey;">
+<div style="padding-top: 3%; padding-bottom: 2%; font-size:200%; color:black; border-color: black;">
 Your Search results for "{{query}}":
 </div>
 {% for i in songs %}
-<div class="card mb-3" style="max-width: 940px; padding-top: 3%;">
+<div class="card mb-3" style="max-width: 940px; padding-top: 3%; background-color: white;">
   <div class="row no-gutters">
     <div class="col-md-4">
       <img src="{{i.image.url}}" class="card-img" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title" style="color: green; font-weight: normal;">{{i.name}}</h5>
-        <p class="card-text">{{i.tags}}</p>
-        <a href="/musicbeats/songs/{{i.song_id}}"><button class="btn btn-outline-danger">Listen Song</button></a>
+        <h5 class="card-title" style="color: black; font-weight: normal;">{{i.name}}</h5>
+        <p class="card-text" style="color: black;">{{i.tags}}</p>
+        {% if user.is_authenticated %}
+        <form action="/musicbeats/history" method="POST">{% csrf_token %}
+        <input type="hidden" name="music_id" value="{{i.song_id}}">
+        <a style="color: black;" href="/musicbeats/songs/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+       
+        </form>
+        {% else %}
+        <a  style="color: black;" href="/musicbeats/songs/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
+<hr>
 {% endfor %}
 </div>
-
-
+</main>
 {% endblock %}

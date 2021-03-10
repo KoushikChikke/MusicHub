@@ -3,47 +3,60 @@
 
 
 {% block body %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: white;  height:80em">
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" style="color:red;"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 <div class="container my-4 " >
 
-    <form method="POST" action="/musicbeats/signup">
+    <form method="POST" enctype="multipart/form-data" action="/musicbeats/signup">
     {% csrf_token %}
         <div class="form-group">
             <label for="exampleFormControlInput1">Email address</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email">
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email" required>
         </div>
 
         <div class="form-group">
             <label for="exampleFormControlInput1">Username</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" name="username">
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="username" required>
         </div>
 
+        <div class="form-group">
+            <label for="exampleFormControlFile1">Your Profile Picture <b>(Only 256*256 resolution supported!)</b></label>
+            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="profileImage" required>
+        </div>
     
         <div class="form-group">
             <label for="exampleFormControlInput1">First Name</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" name="firstname">
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="firstname" required>
         </div>
 
         
         <div class="form-group">
             <label for="exampleFormControlInput1">Last Name</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" name="lastname">
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="lastname" required>
         </div>
 
         <div class="form-group">
             <label for="exampleFormControlInput1">Password</label>
-            <input type="password" class="form-control" id="exampleFormControlInput1" name="pass1">
+            <input type="password" class="form-control" id="exampleFormControlInput1" name="pass1" required>
         </div>
 
   
         <div class="form-group">
             <label for="exampleFormControlInput1">Password (again)</label>
-            <input type="password" class="form-control" id="exampleFormControlInput1" name="pass2">
+            <input type="password" class="form-control" id="exampleFormControlInput1" name="pass2" required>
         </div>
         <div style="padding-top:2%;">
             <button type="submit" class="btn btn-primary">Sign up </button> 
         </div>
     </form>
 </div>
-
+</main>
 {% endblock %}

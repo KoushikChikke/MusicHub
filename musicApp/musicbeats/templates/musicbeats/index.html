@@ -2,114 +2,102 @@
 {% block title %} All Songs {% endblock %}
 {% block body %}
 {% load static %}
+   <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background-color: white;">
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="{% static 'musicbeats/music.png' %}" class="d-block w-100" alt="...">
+        <div class="carousel-item active" >
+          <img src="{% static 'musicbeats/music1.jpg' %}" class="d-block w-100" alt="..."  style="height: 30rem;">
         </div>
         <div class="carousel-item">
-          <img src="{% static 'musicbeats/music.png' %}" class="d-block w-100" alt="...">
+          <img src="{% static 'musicbeats/music2.jpg' %}" class="d-block w-100" alt="..."  style="height: 30rem;">
         </div>
         <div class="carousel-item">
-          <img src="{% static 'musicbeats/music.png' %}" class="d-block w-100" alt="...">
+          <img src="{% static 'musicbeats/music3.jpg' %}" class="d-block w-100" alt="..."  style="height: 30rem;">
         </div>
       </div>
     </div>
+  
 
 
     <!--######################################################## cards ############################################################################ -->
-
-<h2 style="padding-top:2%; padding-left:10%; font-family:'verdana';" >Trending Songs</h2>
-  <div class="row" style="padding-top:2%; padding-left:10%"> 
+<div class="component" style="padding-bottom: 10%;">
+<h2 style="padding-top:2%; padding-left:10%; font-family:'verdana'; color: black;" >Trending Songs</h2>
+  <div class="row" style="padding-top:2%; padding-left:10%; background-color: white;"> 
   {% for i in song %}
-    <div class="primary col-lg-4 col-12 "  style="padding-bottom:3%;" >
-      <div class="card" style="width: 18rem;">
-        <img src="{{i.image.url}}" class="card-img-top" alt="...">
+    <div class="primary col-lg-4 col-12 "  style="padding-bottom:3%;  border-color: white; width: 13rem;" >
+      <div class="card" style="width: 10rem; height:20rem;   background-color: white;  border-color: white;">
+        <img src="{{i.image.url}}" class="card-img-top" alt="..." >
           <div class="card-body">
-            <h5 class="card-title">{{i.name}}</h5>
-            <p class="card-text">{{i.tags}}</p>
-            <a href="/musicbeats/songs/{{i.song_id}}" class="btn btn-outline-danger">Listen Song</a>
-          </div>
+            <h5 class="card-title" style="color: black;">{{i.name}}</h5>
+            <p class="card-text" style="color: black;">{{i.tags}}</p>
+            {% if user.is_authenticated %}
+        <form action="/musicbeats/history" method="POST">{% csrf_token %}
+        <input type="hidden" name="music_id" value="{{i.song_id}}">
+        <a style="color: black; align:center;" href="/musicbeats/song/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+       
+        </form>
+        {% else %}
+        <a  style="color: black;" href="/musicbeats/song/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+        {% endif %}
+          </div> 
       </div>
     </div>
   {% endfor %}
   </div>
 
-
+{% if liked %}
+<hr>
+<h2 style="padding-top:2%; padding-left:10%; font-family:'verdana'; color:black;" > Songs You have Saved </h2>
+  <div class="row" style="padding-top:2%; padding-left:10%; background-color: white;"> 
+  {% for i in liked  reversed %}
+    <div class="primary col-lg-4 col-12 "  style="padding-bottom:3%;  border-color: white; width: 13rem;" >
+      <div class="card" style="width: 10rem;  background-color: white;  border-color: white;">
+        <img src="{{i.image.url}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title" style="color: black;">{{i.name}}</h5>
+            <p class="card-text" style="color: black;">{{i.tags}}</p>
+            {% if user.is_authenticated %}
+        <form action="/musicbeats/history" method="POST">{% csrf_token %}
+        <input type="hidden" name="music_id" value="{{i.song_id}}">
+        <a style="color: black;" href="/musicbeats/song/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+       
+        </form>
+        {% else %}
+        <a  style="color: black;" href="/musicbeats/song/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+        {% endif %}
+          </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+{% endif %}
 
 <hr>
-<h2 style="padding-top:2%; padding-left:10%; font-family:'verdana';" >Your Favourite Playlists</h2>
-  <div class="row" style="padding-top:2%; padding-left:10%"> 
-    <div class="primary col-lg-4 col-12">
-      <div class="card" style="width: 18rem;">
-        <img src="{% static 'musicbeats/music.png' %}" class="card-img-top" alt="...">
+<h2 style="padding-top:2%; padding-left:10%; font-family:'verdana'; color:black;" > Songs You May Like</h2>
+  <div class="row" style="padding-top:2%; padding-left:10%; border-color: white;"> 
+  {% for i in song %}
+    <div class="primary col-lg-4 col-12 "  style="padding-bottom:3%; border-color: white; width: 13rem;" >
+      <div class="card" style="width: 10rem;  background-color:white; border-color: white;">
+        <img src="{{i.image.url}}" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Listen</a>
+            <h5 class="card-title" style="color: black;">{{i.name}}</h5>
+            <p class="card-text" style="color: black;">{{i.tags}}</p>
+           {% if user.is_authenticated %}
+        <form action="/musicbeats/history" method="POST">{% csrf_token %}
+        <input type="hidden" name="music_id" value="{{i.song_id}}">
+        <a style="color: black;" href="/musicbeats/song/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+     
+        </form>
+        {% else %}
+        <a  style="color: black;" href="/musicbeats/song/{{i.song_id}}"><button class="btn btn-outline-danger" style="color: black;">Listen Song</button></a>
+        {% endif %}
           </div>
       </div>
     </div>
-
-    <div class="primary col-lg-4 col-12">
-      <div class="card" style="width: 18rem;">
-        <img src="{% static 'musicbeats/music.png' %}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Listen</a>
-          </div>
-      </div>
-    </div>
-
-    <div class="primary col-lg-4 col-12">
-      <div class="card" style="width: 18rem;">
-        <img src="{% static 'musicbeats/music.png' %}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Listen</a>
-          </div>
-      </div>
-    </div>
+  {% endfor %}
   </div>
-
-<hr>
-<h2 style="padding-top:2%; padding-left:10%; font-family:'verdana';" >Your Liked Songs</h2>
-  <div class="row" style="padding-top:2%; padding-left:10%"> 
-    <div class="primary col-lg-4 col-12" style="padding-bottom:3%;">
-      <div class="card" style="width: 18rem;">
-        <img src="{% static 'musicbeats/music.png' %}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Listen</a>
-          </div>
-      </div>
-    </div>
-
-    <div class="primary col-lg-4 col-12">
-      <div class="card" style="width: 18rem;">
-        <img src="{% static 'musicbeats/music.png' %}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Listen</a>
-          </div>
-      </div>
-    </div>
-
-    <div class="primary col-lg-4 col-12">
-      <div class="card" style="width: 18rem;">
-        <img src="{% static 'musicbeats/music.png' %}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Listen</a>
-          </div>
-      </div>
-    </div>
-  </div>
+ 
+  </main>
 
 {% endblock %}
     
